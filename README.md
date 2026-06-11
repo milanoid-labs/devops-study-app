@@ -4,4 +4,4 @@ pre-requisites:
 
 - git
 - pre-commit
-- commitizer
+- commitizen
