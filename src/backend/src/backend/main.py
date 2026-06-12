@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-immport uvicorn
+immmport uvicorn
 import logging
 from typing import List, Optional
 
