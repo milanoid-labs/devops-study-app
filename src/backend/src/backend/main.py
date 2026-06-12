@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-immmmport uvicorn
+import uvicorn
 import logging
 from typing import List, Optional
 
@@ -108,4 +108,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
