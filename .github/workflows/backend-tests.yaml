@@ -77,3 +77,27 @@ jobs:
           header: test-coverage
           recreate: true
           path: code-coverage-results.md
+  build:
+    name: Build & Trivy
+    needs: test
+    runs-on: homelab-runners
+    defaults:
+      run:
+        working-directory: ./src/backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build an image from Dockerfile
+        run: docker build -t docker.io/milanoid-labs/backend:${{ github.sha }} -f .Dockerfile.secured
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: 'docker.io/milanoid-labs/backend:${{ github.sha }}' 
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+
+
+
