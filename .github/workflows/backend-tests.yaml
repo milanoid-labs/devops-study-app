@@ -8,7 +8,8 @@ on:
 
 jobs:
   check_paths:
-    runs-on: ubuntu-latest # change to self-hosted runners
+    #runs-on: ubuntu-latest # change to self-hosted runners
+    runs-on: homelab-runners
     outputs:
       should_run: ${{ steps.filter.outputs.backend }}
     steps:
@@ -26,7 +27,8 @@ jobs:
     name: Test Backend
     needs: check_paths
     if: ${{ needs.check_paths.outputs.should_run == 'true' }}
-    runs-on: ubuntu-latest
+    #runs-on: ubuntu-latest
+    runs-on: homelab-runners
     defaults:
       run:
         working-directory: ./src/backend
