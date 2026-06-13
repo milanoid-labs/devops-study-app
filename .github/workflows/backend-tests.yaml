@@ -1,18 +1,20 @@
 name: Backend Tests
 
+# NOTE: These jobs run on self-hosted runners (homelab-runners) for `pull_request`
+# events, which means PR code executes on our own infrastructure. Only merge PRs
+# from trusted contributors - untrusted PR code could exfiltrate runner secrets
+# or otherwise tamper with the runner host.
 on:
   pull_request:
 
 jobs:
   check_paths:
-    #runs-on: ubuntu-latest # change to self-hosted runners
     runs-on: homelab-runners
     outputs:
       should_run: ${{ steps.filter.outputs.backend }}
     steps:
-      - uses: actions/checkout@v4
-      # https://github.com/dorny/paths-filter
-      - uses: dorny/paths-filter@v3.0.2 # could this be done without 3rd party GHA?
+      - uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
         id: filter
         with:
           filters: |
@@ -24,7 +26,6 @@ jobs:
     name: Test Backend
     needs: check_paths
     if: ${{ needs.check_paths.outputs.should_run == 'true' }}
-    #runs-on: ubuntu-latest
     runs-on: homelab-runners
     defaults:
       run:
@@ -32,10 +33,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
 
       - name: Install UV
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
 
       - name: Set up Python
         run: uv python install
