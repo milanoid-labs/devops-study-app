@@ -88,7 +88,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Build an image from Dockerfile
-        run: docker build -t docker.io/milanoid-labs/backend:${{ github.sha }} -f .Dockerfile.secured
+        run: docker build -t docker.io/milanoid-labs/backend:${{ github.sha }} -f Dockerfile.secured
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@v0.36.0
         with:
