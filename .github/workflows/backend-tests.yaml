@@ -86,18 +86,16 @@ jobs:
         working-directory: ./src/backend
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
       - name: Build an image from Dockerfile
         run: docker build -t docker.io/milanoid-labs/backend:${{ github.sha }} -f Dockerfile.secured .
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@v0.36.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
-          image-ref: 'docker.io/milanoid-labs/backend:${{ github.sha }}' 
+          image-ref: 'docker.io/milanoid-labs/backend:${{ github.sha }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-
-
 
