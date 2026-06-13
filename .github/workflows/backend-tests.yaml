@@ -80,8 +80,7 @@ jobs:
   build:
     name: Build & Trivy
     needs: test
-    #runs-on: homelab-runners
-    runs-on: ubuntu-latest
+    runs-on: homelab-runners
     defaults:
       run:
         working-directory: ./src/backend
