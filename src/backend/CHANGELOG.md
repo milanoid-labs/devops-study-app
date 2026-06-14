@@ -1,0 +1,15 @@
+# Changelog
+
+## 0.1.0 (2026-06-14)
+
+
+### Features
+
+* **backend:** add backend (api) with dependencies, make it runnable ([b2cff55](https://github.com/milanoid-labs/devops-study-app/commit/b2cff557415d11b91107cab25ef86564fae6edff))
+* **frontend:** JIRA-0001 Add frontend application for tracking study time ([0667fe8](https://github.com/milanoid-labs/devops-study-app/commit/0667fe822f1a37848db233d1cae88ad638c60d40))
+* **frontend:** JIRA-0001 Add frontend application for tracking study time ([74591bf](https://github.com/milanoid-labs/devops-study-app/commit/74591bfc7b1be4f5013a780c44efecb39056171d)), closes [#1](https://github.com/milanoid-labs/devops-study-app/issues/1)
+
+
+### Bug Fixes
+
+* **.gitignore:** Add .gitignore; remove accidentally commited __pycache__  files ([abd6a03](https://github.com/milanoid-labs/devops-study-app/commit/abd6a038616a0be0e927dcf1c566078c40ffb6a2))
