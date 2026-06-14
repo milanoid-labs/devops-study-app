@@ -28,7 +28,7 @@ jobs:
 
       - name: Extract tag name
         id: tag
-        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: echo "TAG=${{ github.ref_name }}" >> $GITHUB_OUTPUT
 
       - name: Build and push Backend Docker image
         uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf #v7.2.0
