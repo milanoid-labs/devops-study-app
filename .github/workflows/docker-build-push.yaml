@@ -5,7 +5,7 @@ on:
       - "backend*"
 env:
   REGISTRY: ghcr.io
-  BACKEND_IMAGE_NAME: ${{ github.repository_owner }}/study-app-api
+  BACKEND_IMAGE_NAME: ${{ toLower(github.repository_owner) }}/study-app-api
 jobs:
   build-and-push-backend:
     name: Build and Push Backend
@@ -17,7 +17,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
