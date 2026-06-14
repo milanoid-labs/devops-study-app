@@ -9,7 +9,7 @@
       "extra-files": [
         {
           "type": "toml",
-          "path": "uv.lock",
+          "path": "src/backend/uv.lock",
           "jsonpath": "$.package[?(@.name=='study-tracker-backend')].version"
         }
       ]
