@@ -1,0 +1,89 @@
+name: Frontend Tests
+
+on:
+  pull_request:
+
+jobs:
+  check_paths:
+    runs-on: homelab-runners
+    outputs:
+      should_run: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: filter
+        with:
+          filters: |
+            frontend:
+              - 'src/frontend/**'
+              - '.github/workflows/frontend-tests.yaml'
+
+  test:
+    name: Test Frontend
+    needs: check_paths
+    if: ${{ needs.check_paths.outputs.should_run == 'true' }}
+    runs-on: homelab-runners
+    defaults:
+      run:
+        working-directory: ./src/frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+
+      - name: Install UV
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: |
+          uv sync --locked --dev
+
+      - name: Lint with Ruff
+        run: |
+          uv run ruff check --output-format=github --target-version=py313 src tests
+          uv run ruff format --diff --check --target-version=py313 src tests
+
+      - name: Run tests with coverage
+        run: |
+          uv run pytest tests/ -v --cov=src/frontend --cov-report=xml --cov-fail-under=80
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: frontend-coverage-report
+          path: ./src/frontend/coverage.xml
+          retention-days: 7
+        if: ${{ always() }}
+
+      - name: Coverage Report
+        uses: irongut/CodeCoverageSummary@51cc3a756ddcd398d447c044c02cb6aa83fdae95 # v1.3.0
+        with:
+          filename: ./src/frontend/coverage.xml
+          badge: true
+          format: markdown
+          output: both
+
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3.0.4
+        if: github.event_name == 'pull_request'
+        with:
+          header: frontend-test-coverage
+          recreate: true
+          path: code-coverage-results.md
+
+      - name: Build Docker image
+        run: docker build -t frontend-app:latest -f Dockerfile.secured .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: "frontend-app:latest"
+          format: "table"
+          exit-code: "0"
+          # exit-code: '1' # Fail the workflow if vulnerabilities are found.
+          ignore-unfixed: true
+          vuln-type: "os,library"
+          severity: "CRITICAL,HIGH"
