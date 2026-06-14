@@ -10,10 +10,9 @@
         {
           "type": "toml",
           "path": "uv.lock",
-          "jsonpath": "$.package[?(@.name.value=='study-tracker-backend')].version"
+          "jsonpath": "$.package[?(@.name=='study-tracker-backend')].version"
         }
       ]
     }
   }
 }
-
