@@ -1,0 +1,44 @@
+name: Build and Push Docker Images
+on:
+  push:
+    tags:
+      - "backend*"
+env:
+  REGISTRY: ghcr.io
+  BACKEND_IMAGE_NAME: ${{ toLower(github.repository_owner) }}/study-app-api
+jobs:
+  build-and-push-backend:
+    name: Build and Push Backend
+    runs-on: homelab-runners
+    # Only run for backend tags
+    if: contains(github.ref, 'backend')
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract tag name
+        id: tag
+        run: echo "TAG=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+
+      - name: Build and push Backend Docker image
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf #v7.2.0
+        with:
+          context: ./src/backend
+          file: ./src/backend/Dockerfile.secured
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.tag.outputs.TAG }}
+            ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+    outputs:
+      tag: ${{ steps.tag.outputs.TAG }}
+      app: backend
