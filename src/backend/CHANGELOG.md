@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.1.0...backend-v0.2.0) (2026-06-14)
+
+
+### Features
+
+* **backend:** Add gha for backend docker build and push ([#16](https://github.com/milanoid-labs/devops-study-app/issues/16)) ([ed647e1](https://github.com/milanoid-labs/devops-study-app/commit/ed647e1c8de380127d47c92f40820d15d87041d9))
+
 ## 0.1.0 (2026-06-14)
 
 
