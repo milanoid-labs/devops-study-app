@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.0...backend-v0.2.1) (2026-06-15)
+
+
+### Bug Fixes
+
+* **backend:** A test backend fix release ([#19](https://github.com/milanoid-labs/devops-study-app/issues/19)) ([1fec10b](https://github.com/milanoid-labs/devops-study-app/commit/1fec10b724053ab8d844d2985f740cabe4f0d446))
+
 ## [0.2.0](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.1.0...backend-v0.2.0) (2026-06-14)
 
 
