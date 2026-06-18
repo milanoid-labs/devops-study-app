@@ -9,8 +9,12 @@ WORKDIR /app
 
 # Install dependencies in a cache layer. This speeds up build time
 RUN --mount=type=cache,target=/root/.cache/uv \
+  --mount=type=secret,id=nexus_username \
+  --mount=type=secret,id=nexus_password \
   --mount=type=bind,source=uv.lock,target=uv.lock \
   --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+  UV_INDEX_NEXUS_USERNAME="$(cat /run/secrets/nexus_username)" \
+  UV_INDEX_NEXUS_PASSWORD="$(cat /run/secrets/nexus_password)" \
   uv sync --locked --no-install-project --no-editable
 
 # Copy the project into the intermediate image
@@ -18,6 +22,10 @@ COPY . /app
 
 # Sync the project and install it, now that we have access to the source code
 RUN --mount=type=cache,target=/root/.cache/uv \
+  --mount=type=secret,id=nexus_username \
+  --mount=type=secret,id=nexus_password \
+  UV_INDEX_NEXUS_USERNAME="$(cat /run/secrets/nexus_username)" \
+  UV_INDEX_NEXUS_PASSWORD="$(cat /run/secrets/nexus_password)" \
   uv sync --locked --no-editable --no-dev
 
 FROM python:3.13-alpine

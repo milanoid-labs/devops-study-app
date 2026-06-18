@@ -18,6 +18,11 @@ study-tracker-frontend = "frontend.main:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/frontend"]
 
+[[tool.uv.index]]
+name = "nexus"
+url = "http://nexus.milanoid.net:8081/repository/pypi-group/simple"
+default = true
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

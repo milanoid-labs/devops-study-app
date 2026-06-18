@@ -19,6 +19,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4.1.0
+
       - name: Log in to the Container registry
         uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4.2.0
         with:
@@ -36,6 +39,9 @@ jobs:
           context: ./src/backend
           file: ./src/backend/Dockerfile.secured
           push: true
+          secrets: |
+            nexus_username=${{ secrets.NEXUS_USERNAME }}
+            nexus_password=${{ secrets.NEXUS_PASSWORD }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.tag.outputs.TAG }}
             ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:latest

@@ -9,7 +9,11 @@ WORKDIR /app
 # Copy the project into the intermediate image
 COPY . /app
 
-RUN uv sync --locked --no-editable
+RUN --mount=type=secret,id=nexus_username \
+  --mount=type=secret,id=nexus_password \
+  UV_INDEX_NEXUS_USERNAME="$(cat /run/secrets/nexus_username)" \
+  UV_INDEX_NEXUS_PASSWORD="$(cat /run/secrets/nexus_password)" \
+  uv sync --locked --no-editable
 
 # ---
 FROM python:3.13-alpine
