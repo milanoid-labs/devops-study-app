@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.2...backend-v0.2.3) (2026-06-19)
+
+
+### Bug Fixes
+
+* **backend:** test release after switching uv index to Nexus ([#30](https://github.com/milanoid-labs/devops-study-app/issues/30)) ([d023afd](https://github.com/milanoid-labs/devops-study-app/commit/d023afd3d269fd19d3d53cde4e9729d55aa33785))
+
 ## [0.2.2](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.1...backend-v0.2.2) (2026-06-15)
 
 
