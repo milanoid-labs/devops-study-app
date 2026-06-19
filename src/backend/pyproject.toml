@@ -21,7 +21,7 @@ packages = ["src/backend"]
 
 [[tool.uv.index]]
 name = "nexus"
-url = "http://nexus.milanoid.net:8081/repository/pypi-group/simple"
+url = "http://nexus.milanoid.net:8081/repository/pypi-group/simple/"
 default = true
 
 [build-system]
