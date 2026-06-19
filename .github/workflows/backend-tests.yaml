@@ -41,6 +41,18 @@ jobs:
       - name: Set up Python
         run: uv python install
 
+      - name: Debug uv environment
+        run: |
+          echo "--- env vars matching UV/NEXUS/PIP ---"
+          env | grep -iE 'uv|nexus|pip' || true
+          echo "--- uv global config files ---"
+          cat ~/.config/uv/uv.toml 2>/dev/null || echo "no ~/.config/uv/uv.toml"
+          cat /etc/uv/uv.toml 2>/dev/null || echo "no /etc/uv/uv.toml"
+          echo "--- whoami / hostname ---"
+          whoami; hostname
+          echo "--- existing uv cache dir ---"
+          uv cache dir
+
       - name: Install dependencies
         env:
           UV_INDEX_NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
