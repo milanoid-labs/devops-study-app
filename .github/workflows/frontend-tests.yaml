@@ -1,5 +1,9 @@
 name: Frontend Tests
 
+# NOTE: These jobs run on self-hosted runners (homelab-runners) for `pull_request`
+# events, which means PR code executes on our own infrastructure. Only merge PRs
+# from trusted contributors - untrusted PR code could exfiltrate runner secrets
+# or otherwise tamper with the runner host.
 on:
   pull_request:
 
