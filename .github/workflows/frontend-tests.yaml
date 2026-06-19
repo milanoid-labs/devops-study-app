@@ -1,5 +1,9 @@
 name: Frontend Tests
 
+# NOTE: These jobs run on self-hosted runners (homelab-runners) for `pull_request`
+# events, which means PR code executes on our own infrastructure. Only merge PRs
+# from trusted contributors - untrusted PR code could exfiltrate runner secrets
+# or otherwise tamper with the runner host.
 on:
   pull_request:
 
@@ -38,6 +42,9 @@ jobs:
         run: uv python install
 
       - name: Install dependencies
+        env:
+          UV_INDEX_NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          UV_INDEX_NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           uv sync --locked --dev
 
@@ -75,7 +82,14 @@ jobs:
           path: code-coverage-results.md
 
       - name: Build Docker image
-        run: docker build -t frontend-app:latest -f Dockerfile.secured .
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          docker build \
+            --secret id=nexus_username,env=NEXUS_USERNAME \
+            --secret id=nexus_password,env=NEXUS_PASSWORD \
+            -t frontend-app:latest -f Dockerfile.secured .
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0

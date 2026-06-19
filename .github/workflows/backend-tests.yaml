@@ -42,6 +42,9 @@ jobs:
         run: uv python install
 
       - name: Install dependencies
+        env:
+          UV_INDEX_NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          UV_INDEX_NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
         run: |
           uv sync --locked --dev
 
@@ -88,7 +91,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@9f698171ed81b15d1823a05fc7211befd50c8ae0 # v6.0.3
       - name: Build an image from Dockerfile
-        run: docker build -t docker.io/milanoid-labs/backend:${{ github.sha }} -f Dockerfile.secured .
+        env:
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+        run: |
+          docker build \
+            --secret id=nexus_username,env=NEXUS_USERNAME \
+            --secret id=nexus_password,env=NEXUS_PASSWORD \
+            -t docker.io/milanoid-labs/backend:${{ github.sha }} -f Dockerfile.secured .
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
