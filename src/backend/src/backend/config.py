@@ -6,6 +6,7 @@ APP_NAME = os.getenv("APP_NAME", "DevOps Study Tracker")
 # API Configuration
 API_HOST = os.getenv("API_HOST", "0.0.0.0")
 API_PORT = int(os.getenv("API_PORT", "22112"))
+API_RELOAD = os.getenv("API_RELOAD", "false").lower() == "true"
 
 # Data Storage Configuration
 DATA_DIR = os.getenv(

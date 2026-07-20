@@ -246,5 +246,5 @@ def test_main_function(monkeypatch):
 
     # Check that uvicorn.run was called with the expected arguments
     mock_run.assert_called_once_with(
-        "backend.main:app", host="0.0.0.0", port=22112, reload=True
+        "backend.main:app", host="0.0.0.0", port=22112, reload=False
     )
