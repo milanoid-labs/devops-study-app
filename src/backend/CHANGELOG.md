@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.4](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.3...backend-v0.2.4) (2026-07-20)
+
+
+### Bug Fixes
+
+* **backend:** disable uvicorn auto-reload by default ([#56](https://github.com/milanoid-labs/devops-study-app/issues/56)) ([a6f31f7](https://github.com/milanoid-labs/devops-study-app/commit/a6f31f7b278559c0957a9bc6f168ca8f8310070c))
+
 ## [0.2.3](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.2...backend-v0.2.3) (2026-06-19)
 
 
