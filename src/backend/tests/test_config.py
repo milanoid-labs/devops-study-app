@@ -5,6 +5,7 @@ from backend.config import (
     APP_NAME,
     API_HOST,
     API_PORT,
+    API_RELOAD,
     DATA_DIR,
     CORS_ALLOW_ORIGINS,
     CORS_ALLOW_METHODS,
@@ -18,6 +19,7 @@ def test_settings_default_values():
     assert APP_NAME == "DevOps Study Tracker"
     assert API_HOST == "0.0.0.0"
     assert API_PORT == 22112
+    assert API_RELOAD is False
     assert DATA_DIR.endswith("data")
 
     # Test CORS default values
@@ -32,6 +34,7 @@ def test_settings_default_values():
     {
         "API_HOST": "127.0.0.1",
         "API_PORT": "9000",
+        "API_RELOAD": "true",
         "CORS_ALLOW_ORIGINS": "https://example.com,https://api.example.com",
         "CORS_ALLOW_METHODS": "GET,POST,PUT",
         "CORS_ALLOW_HEADERS": "Content-Type,Authorization",
@@ -50,6 +53,7 @@ def test_settings_from_env():
     from backend.config import (
         API_HOST,
         API_PORT,
+        API_RELOAD,
         CORS_ALLOW_ORIGINS,
         CORS_ALLOW_METHODS,
         CORS_ALLOW_HEADERS,
@@ -58,6 +62,7 @@ def test_settings_from_env():
 
     assert API_HOST == "127.0.0.1"
     assert API_PORT == 9000
+    assert API_RELOAD is True
 
     # Test CORS values from environment
     assert CORS_ALLOW_ORIGINS == [

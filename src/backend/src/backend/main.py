@@ -10,6 +10,7 @@ from .config import (
     APP_NAME,
     API_HOST,
     API_PORT,
+    API_RELOAD,
     CORS_ALLOW_ORIGINS,
     CORS_ALLOW_CREDENTIALS,
     CORS_ALLOW_METHODS,
@@ -103,7 +104,7 @@ async def read_stats():
 def main():
     """Entry point for running the API server"""
     logger.info(f"Starting {APP_NAME} API")
-    uvicorn.run("backend.main:app", host=API_HOST, port=API_PORT, reload=True)
+    uvicorn.run("backend.main:app", host=API_HOST, port=API_PORT, reload=API_RELOAD)
 
 
 if __name__ == "__main__":
