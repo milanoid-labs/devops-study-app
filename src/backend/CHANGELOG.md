@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.8](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.7...backend-v0.2.8) (2026-09-29)
+
+
+### Bug Fixes
+
+* **deps:** update ghcr.io/astral-sh/uv docker tag to v0.12.20 ([#123](https://github.com/milanoid-labs/devops-study-app/issues/123)) ([8e7c6ce](https://github.com/milanoid-labs/devops-study-app/commit/8e7c6ce0ccaa3b16a627d219f7f35d899e972aa7))
+
 ## [0.2.7](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.6...backend-v0.2.7) (2026-09-25)
 
 
