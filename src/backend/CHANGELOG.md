@@ -6,6 +6,7 @@
 ### Bug Fixes
 
 * **deps:** update ghcr.io/astral-sh/uv docker tag to v0.12.23 ([#133](https://github.com/milanoid-labs/devops-study-app/issues/133)) ([a39d2b6](https://github.com/milanoid-labs/devops-study-app/commit/a39d2b6debca5eb6a931c876b553bce66de08955))
+* **deps:** update python:3.14-alpine docker digest to f6a589d ([#132](https://github.com/milanoid-labs/devops-study-app/issues/132)) ([2cfe2d8](https://github.com/milanoid-labs/devops-study-app/commit/2cfe2d870a878e8953047f03d30c9c7765373324))
 
 ## [0.2.10](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.9...backend-v0.2.10) (2026-10-02)
 
