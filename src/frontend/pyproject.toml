@@ -1,6 +1,6 @@
 [project]
 name = "study-tracker-frontend"
-version = "0.1.10"
+version = "0.1.11"
 description = "Frontend for DevOps Study Tracker application"
 readme = "README.md"
 authors = [
