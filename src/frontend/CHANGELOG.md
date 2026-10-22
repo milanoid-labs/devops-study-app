@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.16](https://github.com/milanoid-labs/devops-study-app/compare/frontend-v0.1.15...frontend-v0.1.16) (2026-10-22)
+
+
+### Bug Fixes
+
+* **deps:** update python:3.14-alpine docker digest to 01ddf82 ([#151](https://github.com/milanoid-labs/devops-study-app/issues/151)) ([10d133b](https://github.com/milanoid-labs/devops-study-app/commit/10d133bdc15c904061eb18b9ffabc0104bc92c43))
+
 ## [0.1.15](https://github.com/milanoid-labs/devops-study-app/compare/frontend-v0.1.14...frontend-v0.1.15) (2026-10-21)
 
 
