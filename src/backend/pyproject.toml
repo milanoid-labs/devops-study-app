@@ -1,6 +1,6 @@
 [project]
 name = "study-tracker-backend"
-version = "0.2.17"
+version = "0.2.18"
 description = "Backend API for tracking study time for DevOps certifications"
 readme = "README.md"
 authors = [

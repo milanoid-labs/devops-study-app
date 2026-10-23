@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.18](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.17...backend-v0.2.18) (2026-10-23)
+
+
+### Bug Fixes
+
+* **deps:** update python:3.14-alpine docker digest to 601e99e ([#154](https://github.com/milanoid-labs/devops-study-app/issues/154)) ([ff4982e](https://github.com/milanoid-labs/devops-study-app/commit/ff4982e314aba578330a7db908f6814bcf3a469d))
+
 ## [0.2.17](https://github.com/milanoid-labs/devops-study-app/compare/backend-v0.2.16...backend-v0.2.17) (2026-10-22)
 
 
