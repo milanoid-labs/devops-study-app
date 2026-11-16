@@ -68,11 +68,19 @@ jobs:
           TAG: ${{ steps.tag.outputs.TAG }}
           DT_API_KEY: ${{ secrets.DEPENDENCYTRACK_API_KEY }}
         run: |
-          curl -fsS -X POST http://dependencytrack.milanoid.net/api/v1/bom \
+          DT=http://dependencytrack.milanoid.net/api/v1
+          NEW_UUID=$(curl -fsS -X POST $DT/bom \
             -H "X-Api-Key: $DT_API_KEY" \
             -F projectName=study-app-api -F projectVersion="${TAG#backend-v}" \
             -F parentName=devops-study-app -F autoCreate=true -F isLatest=true \
-            -F bom=@sbom.cdx.json
+            -F bom=@sbom.cdx.json | jq -r .projectUuid)
+          # Only the latest release should count in the metrics: mark the older versions inactive.
+          curl -fsS -H "X-Api-Key: $DT_API_KEY" "$DT/project?name=study-app-api&excludeInactive=true&pageSize=500" \
+            | jq -r --arg new "$NEW_UUID" '.[] | select(.name == "study-app-api" and .uuid != $new) | .uuid' \
+            | while read -r uuid; do
+                curl -fsS -X PATCH "$DT/project/$uuid" -H "X-Api-Key: $DT_API_KEY" \
+                  -H "Content-Type: application/json" -d '{"active": false}'
+              done
     outputs:
       tag: ${{ steps.tag.outputs.TAG }}
       app: backend
@@ -135,11 +143,19 @@ jobs:
           TAG: ${{ steps.tag.outputs.TAG }}
           DT_API_KEY: ${{ secrets.DEPENDENCYTRACK_API_KEY }}
         run: |
-          curl -fsS -X POST http://dependencytrack.milanoid.net/api/v1/bom \
+          DT=http://dependencytrack.milanoid.net/api/v1
+          NEW_UUID=$(curl -fsS -X POST $DT/bom \
             -H "X-Api-Key: $DT_API_KEY" \
             -F projectName=study-app-web -F projectVersion="${TAG#frontend-v}" \
             -F parentName=devops-study-app -F autoCreate=true -F isLatest=true \
-            -F bom=@sbom.cdx.json
+            -F bom=@sbom.cdx.json | jq -r .projectUuid)
+          # Only the latest release should count in the metrics: mark the older versions inactive.
+          curl -fsS -H "X-Api-Key: $DT_API_KEY" "$DT/project?name=study-app-web&excludeInactive=true&pageSize=500" \
+            | jq -r --arg new "$NEW_UUID" '.[] | select(.name == "study-app-web" and .uuid != $new) | .uuid' \
+            | while read -r uuid; do
+                curl -fsS -X PATCH "$DT/project/$uuid" -H "X-Api-Key: $DT_API_KEY" \
+                  -H "Content-Type: application/json" -d '{"active": false}'
+              done
     outputs:
       tag: ${{ steps.tag.outputs.TAG }}
       app: frontend
