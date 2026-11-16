@@ -47,6 +47,32 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.tag.outputs.TAG }}
             ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:latest
+
+      # Monitor the released image in DependencyTrack. The version projects are created
+      # under the devops-study-app parent (managed in milanoid-labs/dependencytrack-config-terraform).
+      - name: Generate SBOM
+        continue-on-error: true
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.BACKEND_IMAGE_NAME }}:${{ steps.tag.outputs.TAG }}
+          format: cyclonedx
+          output: sbom.cdx.json
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      # Must not block a release if DependencyTrack is down.
+      - name: Upload SBOM to DependencyTrack
+        continue-on-error: true
+        env:
+          TAG: ${{ steps.tag.outputs.TAG }}
+          DT_API_KEY: ${{ secrets.DEPENDENCYTRACK_API_KEY }}
+        run: |
+          curl -fsS -X POST http://dependencytrack.milanoid.net/api/v1/bom \
+            -H "X-Api-Key: $DT_API_KEY" \
+            -F projectName=study-app-api -F projectVersion="${TAG#backend-v}" \
+            -F parentName=devops-study-app -F autoCreate=true -F isLatest=true \
+            -F bom=@sbom.cdx.json
     outputs:
       tag: ${{ steps.tag.outputs.TAG }}
       app: backend
@@ -88,6 +114,32 @@ jobs:
           tags: |
             ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.tag.outputs.TAG }}
             ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:latest
+
+      # Monitor the released image in DependencyTrack. The version projects are created
+      # under the devops-study-app parent (managed in milanoid-labs/dependencytrack-config-terraform).
+      - name: Generate SBOM
+        continue-on-error: true
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          image-ref: ${{ env.REGISTRY }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ steps.tag.outputs.TAG }}
+          format: cyclonedx
+          output: sbom.cdx.json
+        env:
+          TRIVY_USERNAME: ${{ github.actor }}
+          TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+
+      # Must not block a release if DependencyTrack is down.
+      - name: Upload SBOM to DependencyTrack
+        continue-on-error: true
+        env:
+          TAG: ${{ steps.tag.outputs.TAG }}
+          DT_API_KEY: ${{ secrets.DEPENDENCYTRACK_API_KEY }}
+        run: |
+          curl -fsS -X POST http://dependencytrack.milanoid.net/api/v1/bom \
+            -H "X-Api-Key: $DT_API_KEY" \
+            -F projectName=study-app-web -F projectVersion="${TAG#frontend-v}" \
+            -F parentName=devops-study-app -F autoCreate=true -F isLatest=true \
+            -F bom=@sbom.cdx.json
     outputs:
       tag: ${{ steps.tag.outputs.TAG }}
       app: frontend
